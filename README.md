@@ -246,7 +246,7 @@ npm run build
 - Add proper TypeScript types
 - Test on multiple screen sizes
 
----
+
 
 **Made with ❤️ by Milan Mandal**
 
