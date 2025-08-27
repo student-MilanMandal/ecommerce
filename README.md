@@ -246,26 +246,6 @@ npm run build
 - Add proper TypeScript types
 - Test on multiple screen sizes
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Fake Store API** - For providing free product data
-- **Unsplash** - For beautiful product images
-- **React Team** - For the amazing React framework
-- **Tailwind CSS** - For the utility-first CSS framework
-- **Vite Team** - For the fast build tool
-
-## 📞 Support
-
-If you have any questions or need help with the project:
-
-- **GitHub Issues**: [Create an issue](https://github.com/student-MilanMandal/ecommerce/issues)
-- **Email**: milan.mandal@example.com
-- **Website**: [EcoShop Demo](https://ecoshop-demo.vercel.app)
-
 ---
 
 **Made with ❤️ by Milan Mandal**
