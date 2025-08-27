@@ -1,6 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { ProductCard } from '../components/ProductCard';
-import { fetchProducts, fetchCategories, type Product } from '../services/productService';
+import {
+  fetchProducts,
+  fetchCategories,
+  type Product,
+} from '../services/productService';
 import { FiSearch, FiLoader } from 'react-icons/fi';
 
 export const HomePage = () => {
@@ -19,7 +23,7 @@ export const HomePage = () => {
         console.log('Fetching products and categories...');
         const [productsData, categoriesData] = await Promise.all([
           fetchProducts(),
-          fetchCategories()
+          fetchCategories(),
         ]);
         console.log('Products loaded:', productsData.length);
         console.log('Categories loaded:', categoriesData);
@@ -36,13 +40,19 @@ export const HomePage = () => {
   }, []);
 
   const filteredProducts = useMemo(() => {
-    return products.filter(product => {
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           product.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesMinPrice = !minPrice || product.price >= parseFloat(minPrice);
-      const matchesMaxPrice = !maxPrice || product.price <= parseFloat(maxPrice);
-      return matchesCategory && matchesSearch && matchesMinPrice && matchesMaxPrice;
+    return products.filter((product) => {
+      const matchesCategory =
+        selectedCategory === 'all' || product.category === selectedCategory;
+      const matchesSearch =
+        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesMinPrice =
+        !minPrice || product.price >= parseFloat(minPrice);
+      const matchesMaxPrice =
+        !maxPrice || product.price <= parseFloat(maxPrice);
+      return (
+        matchesCategory && matchesSearch && matchesMinPrice && matchesMaxPrice
+      );
     });
   }, [products, selectedCategory, searchQuery, minPrice, maxPrice]);
 
@@ -100,7 +110,7 @@ export const HomePage = () => {
             <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-6">
               Discover Amazing Products
             </h2>
-            
+
             {/* Main Search and Filter Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
               {/* Search Bar */}
@@ -119,7 +129,7 @@ export const HomePage = () => {
                   <FiSearch className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 </div>
               </div>
-              
+
               {/* Category Filter */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -130,14 +140,16 @@ export const HomePage = () => {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-200 text-sm shadow-sm"
                 >
-                  {categories.map(category => (
+                  {categories.map((category) => (
                     <option key={category} value={category}>
-                      {category === 'all' ? 'All Categories' : category.charAt(0).toUpperCase() + category.slice(1)}
+                      {category === 'all'
+                        ? 'All Categories'
+                        : category.charAt(0).toUpperCase() + category.slice(1)}
                     </option>
                   ))}
                 </select>
               </div>
-              
+
               {/* Price Range */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -152,7 +164,7 @@ export const HomePage = () => {
                   min="0"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Max Price
@@ -175,15 +187,25 @@ export const HomePage = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Results Summary */}
             <div className="mt-6 flex justify-between items-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Showing <span className="font-semibold text-blue-600 dark:text-blue-400">{filteredProducts.length}</span> of <span className="font-semibold">{products.length}</span> products
+                Showing{' '}
+                <span className="font-semibold text-blue-600 dark:text-blue-400">
+                  {filteredProducts.length}
+                </span>{' '}
+                of <span className="font-semibold">{products.length}</span>{' '}
+                products
               </p>
-              {(searchQuery || selectedCategory !== 'all' || minPrice || maxPrice) && (
+              {(searchQuery ||
+                selectedCategory !== 'all' ||
+                minPrice ||
+                maxPrice) && (
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="text-gray-500 dark:text-gray-400">Active filters:</span>
+                  <span className="text-gray-500 dark:text-gray-400">
+                    Active filters:
+                  </span>
                   {searchQuery && (
                     <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full">
                       "{searchQuery}"
@@ -210,13 +232,16 @@ export const HomePage = () => {
           <div className="bg-gray-50/50 dark:bg-gray-800/30 rounded-xl p-4 sm:p-6 backdrop-blur-sm transition-colors duration-300">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                {selectedCategory === 'all' ? 'All Products' : selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+                {selectedCategory === 'all'
+                  ? 'All Products'
+                  : selectedCategory.charAt(0).toUpperCase() +
+                    selectedCategory.slice(1)}
               </h2>
               <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full">
                 {filteredProducts.length} products
               </span>
             </div>
-            
+
             {filteredProducts.length === 0 ? (
               <div className="text-center py-12 sm:py-16">
                 <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
@@ -225,9 +250,9 @@ export const HomePage = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-                {filteredProducts.map(product => (
-                  <ProductCard 
-                    key={product.id} 
+                {filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
                     product={{
                       id: product.id,
                       name: product.title,
@@ -235,9 +260,11 @@ export const HomePage = () => {
                       description: product.description,
                       imageUrl: product.image,
                       category: product.category,
-                      featured: product.rating?.rate ? product.rating.rate > 4 : false,
-                      rating: product.rating?.rate
-                    }} 
+                      featured: product.rating?.rate
+                        ? product.rating.rate > 4
+                        : false,
+                      rating: product.rating?.rate,
+                    }}
                   />
                 ))}
               </div>
@@ -247,4 +274,4 @@ export const HomePage = () => {
       </div>
     </div>
   );
-}
+};
