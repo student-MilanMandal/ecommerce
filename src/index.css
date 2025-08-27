@@ -14,14 +14,31 @@
       'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Performance optimizations */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
   #root {
     min-height: 100vh;
+    /* Enable hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   html {
     scroll-behavior: smooth;
+    /* Improve scrolling performance */
+    overflow-x: hidden;
+  }
+
+  /* Performance optimization for all elements */
+  * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
   }
 }
 
@@ -75,5 +92,38 @@
 
   .text-shadow-md {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Smooth scrolling performance optimizations */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Hardware acceleration for better performance */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Optimize repaints and reflows */
+  .optimized-render {
+    contain: layout style paint;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* Smooth transitions without janky performance */
+  .smooth-transition {
+    transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    will-change: transform;
+  }
+  
+  /* Grid performance optimization */
+  .grid-performance {
+    contain: layout;
+    content-visibility: auto;
+    contain-intrinsic-size: 320px;
   }
 }

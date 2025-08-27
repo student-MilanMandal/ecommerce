@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { ProductCard } from '../components/ProductCard';
 import {
   fetchProducts,
@@ -6,6 +6,7 @@ import {
   type Product,
 } from '../services/productService';
 import { FiSearch, FiLoader } from 'react-icons/fi';
+import { usePerformanceMonitor } from '../hooks/useOptimizedPerformance';
 
 export const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,6 +16,9 @@ export const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+
+  // Performance monitoring
+  usePerformanceMonitor();
 
   useEffect(() => {
     console.log('HomePage component mounted, starting data load...');
@@ -56,13 +60,13 @@ export const HomePage = () => {
     });
   }, [products, selectedCategory, searchQuery, minPrice, maxPrice]);
 
-  // Preload images for better performance
-  const resetFilters = () => {
+  // Optimized event handlers with useCallback
+  const resetFilters = useCallback(() => {
     setSearchQuery('');
     setSelectedCategory('all');
     setMinPrice('');
     setMaxPrice('');
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -249,23 +253,35 @@ export const HomePage = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+              <div 
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 grid-performance"
+                style={{ 
+                  willChange: 'scroll-position',
+                  backfaceVisibility: 'hidden',
+                  transform: 'translateZ(0)'
+                }}
+              >
                 {filteredProducts.map((product) => (
-                  <ProductCard
+                  <div 
                     key={product.id}
-                    product={{
-                      id: product.id,
-                      name: product.title,
-                      price: product.price,
-                      description: product.description,
-                      imageUrl: product.image,
-                      category: product.category,
-                      featured: product.rating?.rate
-                        ? product.rating.rate > 4
-                        : false,
-                      rating: product.rating?.rate,
-                    }}
-                  />
+                    className="optimized-render"
+                    style={{ containIntrinsicSize: '320px' }}
+                  >
+                    <ProductCard
+                      product={{
+                        id: product.id,
+                        name: product.title,
+                        price: product.price,
+                        description: product.description,
+                        imageUrl: product.image,
+                        category: product.category,
+                        featured: product.rating?.rate
+                          ? product.rating.rate > 4
+                          : false,
+                        rating: product.rating?.rate,
+                      }}
+                    />
+                  </div>
                 ))}
               </div>
             )}

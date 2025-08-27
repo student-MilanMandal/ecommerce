@@ -50,21 +50,28 @@ const ProductCardComponent = ({ product }: ProductCardProps) => {
 
   return (
     <div
-      className="card-container bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:border-blue-400 dark:hover:border-blue-500 transform group w-full flex flex-col"
+      className="card-container bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden will-change-transform gpu-accelerated optimized-render w-full flex flex-col"
       style={cardStyles}
     >
       {/* Product Image Link */}
       <Link
         to={`/product/${product.id}`}
-        className="block relative flex-shrink-0"
+        className="block relative flex-shrink-0 overflow-hidden"
         style={{ height: imageStyles.height }}
       >
         <div className="relative w-full h-full overflow-hidden bg-gray-100 dark:bg-gray-700 rounded-t-2xl">
           <img
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+            className="w-full h-full object-cover transform transition-transform duration-200 ease-out will-change-transform"
             loading="lazy"
+            decoding="async"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           />
           {/* Featured Badge */}
           {product.featured && (
@@ -79,7 +86,6 @@ const ProductCardComponent = ({ product }: ProductCardProps) => {
               -{product.discount}%
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
         </div>
       </Link>
 
