@@ -2,8 +2,6 @@
 
 A modern, responsive ecommerce web application built with React, TypeScript, and Tailwind CSS. Features a clean design, shopping cart functionality, and mobile-first responsive layout.
 
-![EcoShop Preview](https://via.placeholder.com/800x400/2563eb/ffffff?text=EcoShop+Preview)
-
 ## ✨ Features
 
 ### 🛍️ Core Features
